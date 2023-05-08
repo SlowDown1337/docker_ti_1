@@ -1,0 +1,82 @@
+version: '3,9'
+##SlowDOwn
+
+services:
+
+  pyton:
+    build: ./images/pyton/.
+    container_name: pyton
+    command: python3 app.py
+    volumes:
+      - ./volumes/py:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+
+  node:
+    build: ./images/node/.
+    container_name: nodejs
+    command: npm start
+    volumes:
+      - ./volumes/node:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+       - mongo
+
+  php:
+    build: ./images/php/.
+    container_name: php
+    volumes:
+      - ./volumes/php/src:/var/www/html
+    ports:
+      - 8000:80
+    depends_on:
+      - db 
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.6
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: user
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongodb
+    volumes:
+      - ./volumes/mongodb:/data/db
+    ports: 
+      - 27017:27017
+ 
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    volumes:
+      - ./volumes/redisdb:/data
+    ports:
+      - 6379:6379 
+
+
+      ### a local host tem o numero da porta.
+
+
+
+
+
+
+
+
+
