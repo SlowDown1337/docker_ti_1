@@ -1,8 +1,0 @@
-redis==3.5.3
-flask==2.0.1
-
-
-# ###// servername => db
-#  username => root
-#  password => example
-#  database name => user
